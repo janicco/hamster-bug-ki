@@ -1,0 +1,6 @@
+{
+  "name": "Hamster Bug - KI Coding Studio",
+  "description": "Hamster Bug ist dein intelligenter, kostenloser KI-Coding-Assistent mit Live-Editor, Bug-Squashing, Code-Erklärungen, Sandbox und Dark Mode.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
