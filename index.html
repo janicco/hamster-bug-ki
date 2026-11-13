@@ -9,6 +9,30 @@
     <meta property="og:description" content="Hamster Bug ist dein intelligenter, kostenloser KI-Coding-Assistent mit Live-Editor, Bug-Squashing, Code-Erklärungen, Sandbox und Dark Mode." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Gracefully ignore harmless WebSocket / HMR connection rejections in preview iFrame (per runtime environment rules: "HMR: Disabled. Ignore WebSocket errors.")
+      window.addEventListener('unhandledrejection', function(event) {
+        var reason = event && event.reason;
+        var msg = (reason && (reason.message || String(reason))) || '';
+        var stack = (reason && reason.stack) || '';
+        if (
+          msg.includes('WebSocket') || 
+          msg.includes('vite') || 
+          stack.includes('createWebSocketModuleRunnerTransport') ||
+          stack.includes('@vite/client')
+        ) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      }, true);
+      window.addEventListener('error', function(event) {
+        var msg = (event && event.message) || '';
+        if (msg.includes('WebSocket') || msg.includes('vite')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      }, true);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">

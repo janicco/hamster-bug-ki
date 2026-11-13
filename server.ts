@@ -1,5 +1,6 @@
 import express from 'express';
 import type { Request, Response } from 'express';
+import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -187,12 +188,17 @@ app.get('/api/health', (_req: Request, res: Response) => {
 
 async function startServer() {
   const isProduction = process.env.NODE_ENV === 'production';
+  const server = http.createServer(app);
 
   if (!isProduction) {
     // Dynamic import of Vite in development mode
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        hmr: false,
+        ws: false,
+      },
       appType: 'spa',
     });
     app.use(vite.middlewares);
@@ -205,7 +211,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`🐹 Hamster Bug Dev Server running at http://localhost:${PORT}`);
   });
 }
